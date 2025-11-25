@@ -95,81 +95,59 @@
     color: #9ca3af;
   }
   
-  /* Player cards grid */
-  
-  .players-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-    gap: 1rem;
-    padding-bottom: 2rem;
+  /* Player table */
+
+  .table-section {
+    margin-bottom: 2rem;
   }
-  
-  .player-card {
-    background: rgba(15, 23, 42, 0.95);
+
+  .table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    background: rgba(15, 23, 42, 0.9);
     border-radius: 10px;
-    padding: 0.75rem;
-    border: 1px solid rgba(148, 163, 184, 0.35);
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-    transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s;
+    border: 1px solid rgba(148, 163, 184, 0.3);
   }
-  
-  .player-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(15, 23, 42, 0.9);
-    border-color: #facc15;
+
+  .players-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 720px;
   }
-  
-  .player-card-header {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
+
+  .players-table thead {
+    background: rgba(12, 18, 36, 0.95);
   }
-  
-  .player-card-img {
-    width: 48px;
-    height: 48px;
-    border-radius: 8px;
-    background: #020617;
+
+  .players-table th,
+  .players-table td {
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
+
+  .players-table th {
+    font-weight: 600;
+    color: #e5e7eb;
+  }
+
+  .players-table tbody tr:nth-child(odd) {
+    background: rgba(15, 23, 42, 0.6);
+  }
+
+  .players-table tbody tr:hover {
+    background: rgba(250, 204, 21, 0.08);
+  }
+
+  .player-photo {
+    width: 42px;
+    height: 42px;
+    border-radius: 6px;
     object-fit: cover;
     border: 1px solid rgba(75, 85, 99, 0.8);
-  }
-  
-  .player-card-name {
-    font-weight: 600;
-    font-size: 0.95rem;
-  }
-  
-  .player-card-meta {
-    font-size: 0.8rem;
-    color: #9ca3af;
-  }
-  
-  .player-card-tag-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    margin-top: 0.25rem;
-  }
-  
-  .tag {
-    font-size: 0.7rem;
-    padding: 0.1rem 0.4rem;
-    border-radius: 999px;
-    border: 1px solid #4b5563;
-  }
-  
-  .tag-pos {
-    border-color: #38bdf8;
-  }
-  
-  .tag-elem {
-    border-color: #a855f7;
-  }
-  
-  .tag-game {
-    border-color: #22c55e;
+    background: #020617;
   }
   
   /* Player page */

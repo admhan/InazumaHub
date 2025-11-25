@@ -22,12 +22,15 @@ function loadAllData() {
 }
 
 loadAllData().then(([main, images, desc, obtain]) => {
+  const imageMap = Object.fromEntries(images.map((item) => [item.full_name, item.image_url]));
+  const descMap = Object.fromEntries(desc.map((item) => [item.full_name, item.description]));
+  const obtainMap = Object.fromEntries(obtain.map((item) => [item.full_name, item.how_to_obtain]));
 
   playersData = main.map(p => ({
     ...p,
-    image_url: images[p.full_name] || "assets/img/no_image.png",
-    description: desc[p.full_name] || "",
-    how_to_obtain: obtain[p.full_name] || ""
+    image_url: imageMap[p.full_name] || "assets/img/no_image.png",
+    description: descMap[p.full_name] || "",
+    how_to_obtain: obtainMap[p.full_name] || ""
   }));
 
   filteredPlayers = playersData;
@@ -61,8 +64,8 @@ function applySorting() {
 
   if (stat) {
     filteredPlayers.sort((a, b) => {
-      const valA = Number(a["stat_" + stat]);
-      const valB = Number(b["stat_" + stat]);
+      const valA = Number(a[stat]);
+      const valB = Number(b[stat]);
       return order === "asc" ? valA - valB : valB - valA;
     });
   }
@@ -75,18 +78,24 @@ function renderPlayers() {
   playersContainer.innerHTML = "";
 
   filteredPlayers.forEach(p => {
-    const card = document.createElement("div");
-    card.className = "player-card";
+    const row = document.createElement("tr");
 
-    card.innerHTML = `
-      <img src="${p.image_url}" alt="${p.full_name}">
-      <h3>${p.first_name} ${p.last_name}</h3>
-      <p><strong>${p.position}</strong> — ${p.element}</p>
-      <p class="stats-small">Kick: ${p.stat_kick} | Ctrl: ${p.stat_control}</p>
-      <a class="btn" href="player.html?id=${p.id}">Details</a>
+    row.innerHTML = `
+      <td><img src="${p.image_url}" alt="${p.full_name}" class="player-photo"></td>
+      <td>${p.first_name}</td>
+      <td>${p.last_name}</td>
+      <td>${p.element}</td>
+      <td>${p.position}</td>
+      <td>${p.stat_kick}</td>
+      <td>${p.stat_control}</td>
+      <td>${p.stat_technique}</td>
+      <td>${p.stat_pressure}</td>
+      <td>${p.stat_physical}</td>
+      <td>${p.stat_agility}</td>
+      <td>${p.stat_intelligence}</td>
     `;
 
-    playersContainer.appendChild(card);
+    playersContainer.appendChild(row);
   });
 
   resultsCount.textContent = `${filteredPlayers.length} players`;
