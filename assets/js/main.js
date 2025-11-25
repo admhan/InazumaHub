@@ -22,12 +22,15 @@ function loadAllData() {
 }
 
 loadAllData().then(([main, images, desc, obtain]) => {
+  const imageMap = Object.fromEntries(images.map((item) => [item.full_name, item.image_url]));
+  const descMap = Object.fromEntries(desc.map((item) => [item.full_name, item.description]));
+  const obtainMap = Object.fromEntries(obtain.map((item) => [item.full_name, item.how_to_obtain]));
 
   playersData = main.map(p => ({
     ...p,
-    image_url: images[p.full_name] || "assets/img/no_image.png",
-    description: desc[p.full_name] || "",
-    how_to_obtain: obtain[p.full_name] || ""
+    image_url: imageMap[p.full_name] || "assets/img/no_image.png",
+    description: descMap[p.full_name] || "",
+    how_to_obtain: obtainMap[p.full_name] || ""
   }));
 
   filteredPlayers = playersData;
@@ -61,8 +64,8 @@ function applySorting() {
 
   if (stat) {
     filteredPlayers.sort((a, b) => {
-      const valA = Number(a["stat_" + stat]);
-      const valB = Number(b["stat_" + stat]);
+      const valA = Number(a[stat]);
+      const valB = Number(b[stat]);
       return order === "asc" ? valA - valB : valB - valA;
     });
   }
