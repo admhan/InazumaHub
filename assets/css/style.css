@@ -193,6 +193,24 @@
     font-size: 0.9rem;
     color: #e5e7eb;
   }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.5rem 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .info-label {
+    display: block;
+    font-size: 0.75rem;
+    color: #9ca3af;
+  }
+
+  .info-value {
+    font-weight: 600;
+    color: #fef3c7;
+  }
   
   /* Rarity & stats */
   
@@ -221,6 +239,13 @@
   .stats-section h3 {
     margin-bottom: 0.5rem;
   }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    align-items: center;
+    gap: 1rem;
+  }
   
   .stats-table {
     width: 100%;
@@ -237,6 +262,16 @@
   .stats-table th {
     text-align: left;
     color: #e5e7eb;
+  }
+
+  .radar-wrapper {
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto;
+    padding: 1rem;
+    background: rgba(12, 18, 36, 0.6);
+    border-radius: 12px;
+    border: 1px solid rgba(148, 163, 184, 0.25);
   }
   
   /* Text sections */

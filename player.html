@@ -5,6 +5,7 @@
   <title>InazumaHub - Player</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="assets/css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 <header class="site-header">
@@ -24,9 +25,32 @@
     <div class="player-meta">
       <h2 id="player-name"></h2>
       <p id="player-game"></p>
-      <p id="player-position-element"></p>
-      <p id="player-role"></p>
-      <p id="player-age-school"></p>
+      <div class="info-grid">
+        <div>
+          <span class="info-label">Position</span>
+          <span class="info-value" id="info-position"></span>
+        </div>
+        <div>
+          <span class="info-label">Element</span>
+          <span class="info-value" id="info-element"></span>
+        </div>
+        <div>
+          <span class="info-label">Role</span>
+          <span class="info-value" id="info-role"></span>
+        </div>
+        <div>
+          <span class="info-label">Game</span>
+          <span class="info-value" id="info-game"></span>
+        </div>
+        <div>
+          <span class="info-label">Age</span>
+          <span class="info-value" id="info-age"></span>
+        </div>
+        <div>
+          <span class="info-label">School Year</span>
+          <span class="info-value" id="info-school-year"></span>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -44,17 +68,22 @@
 
   <section class="stats-section">
     <h3>Stats</h3>
-    <table class="stats-table">
-      <tbody>
-      <tr><th>Kick</th><td id="stat-kick"></td></tr>
-      <tr><th>Control</th><td id="stat-control"></td></tr>
-      <tr><th>Technique</th><td id="stat-technique"></td></tr>
-      <tr><th>Pressure</th><td id="stat-pressure"></td></tr>
-      <tr><th>Physical</th><td id="stat-physical"></td></tr>
-      <tr><th>Agility</th><td id="stat-agility"></td></tr>
-      <tr><th>Intelligence</th><td id="stat-intelligence"></td></tr>
-      </tbody>
-    </table>
+    <div class="stats-grid">
+      <table class="stats-table">
+        <tbody>
+        <tr><th>Kick</th><td id="stat-kick"></td></tr>
+        <tr><th>Control</th><td id="stat-control"></td></tr>
+        <tr><th>Technique</th><td id="stat-technique"></td></tr>
+        <tr><th>Pressure</th><td id="stat-pressure"></td></tr>
+        <tr><th>Physical</th><td id="stat-physical"></td></tr>
+        <tr><th>Agility</th><td id="stat-agility"></td></tr>
+        <tr><th>Intelligence</th><td id="stat-intelligence"></td></tr>
+        </tbody>
+      </table>
+      <div class="radar-wrapper">
+        <canvas id="stats-radar" width="320" height="320" aria-label="Player stats radar" role="img"></canvas>
+      </div>
+    </div>
   </section>
 
   <section class="text-section">

@@ -79,11 +79,12 @@ function renderPlayers() {
 
   filteredPlayers.forEach(p => {
     const row = document.createElement("tr");
+    const detailUrl = `player.html?id=${encodeURIComponent(p.id)}`;
 
     row.innerHTML = `
       <td><img src="${p.image_url}" alt="${p.full_name}" class="player-photo"></td>
-      <td>${p.first_name}</td>
-      <td>${p.last_name}</td>
+      <td><a href="${detailUrl}">${p.first_name}</a></td>
+      <td><a href="${detailUrl}">${p.last_name}</a></td>
       <td>${p.element}</td>
       <td>${p.position}</td>
       <td>${p.stat_kick}</td>
@@ -94,6 +95,12 @@ function renderPlayers() {
       <td>${p.stat_agility}</td>
       <td>${p.stat_intelligence}</td>
     `;
+
+    row.addEventListener("click", () => {
+      window.location.href = detailUrl;
+    });
+
+    row.style.cursor = "pointer";
 
     playersContainer.appendChild(row);
   });
