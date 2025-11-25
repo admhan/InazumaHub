@@ -12,14 +12,28 @@ const sortDirectionBtn = document.getElementById("sort-direction");
 const resultsCount = document.getElementById("results-count");
 const playersContainer = document.getElementById("players-container");
 
-// Load JSON
-fetch("data/players.json")
-  .then(res => res.json())
-  .then(data => {
-    playersData = data;
-    filteredPlayers = data;
-    renderPlayers();
-  });
+function loadAllData() {
+  return Promise.all([
+    fetch("data/characters_main.json").then(r => r.json()),
+    fetch("data/characters_images.json").then(r => r.json()),
+    fetch("data/characters_description.json").then(r => r.json()),
+    fetch("data/characters_obtain.json").then(r => r.json())
+  ]);
+}
+
+loadAllData().then(([main, images, desc, obtain]) => {
+
+  playersData = main.map(p => ({
+    ...p,
+    image_url: images[p.full_name] || "assets/img/no_image.png",
+    description: desc[p.full_name] || "",
+    how_to_obtain: obtain[p.full_name] || ""
+  }));
+
+  filteredPlayers = playersData;
+  applySorting();
+  renderPlayers();
+});
 
 // --- FILTERING ---
 function applyFilters() {
@@ -47,8 +61,8 @@ function applySorting() {
 
   if (stat) {
     filteredPlayers.sort((a, b) => {
-      const valA = Number(a[stat]);
-      const valB = Number(b[stat]);
+      const valA = Number(a["stat_" + stat]);
+      const valB = Number(b["stat_" + stat]);
       return order === "asc" ? valA - valB : valB - valA;
     });
   }
@@ -65,7 +79,7 @@ function renderPlayers() {
     card.className = "player-card";
 
     card.innerHTML = `
-      <img src="${p.image_url || "assets/img/no_image.png"}" alt="${p.full_name}">
+      <img src="${p.image_url}" alt="${p.full_name}">
       <h3>${p.first_name} ${p.last_name}</h3>
       <p><strong>${p.position}</strong> — ${p.element}</p>
       <p class="stats-small">Kick: ${p.stat_kick} | Ctrl: ${p.stat_control}</p>
@@ -78,16 +92,14 @@ function renderPlayers() {
   resultsCount.textContent = `${filteredPlayers.length} players`;
 }
 
-// --- EVENTS LISTENERS ---
+// --- EVENTS ---
 searchInput.addEventListener("input", applyFilters);
 positionFilter.addEventListener("change", applyFilters);
 elementFilter.addEventListener("change", applyFilters);
 gameFilter.addEventListener("change", applyFilters);
 
-// Tri par stat
 sortStatSelect.addEventListener("change", applySorting);
 
-// Bouton asc/desc
 sortDirectionBtn.addEventListener("click", () => {
   if (sortDirectionBtn.dataset.order === "asc") {
     sortDirectionBtn.dataset.order = "desc";
