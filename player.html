@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>InazumaHub - Player</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <h1><a href="index.html">InazumaHub</a></h1>
+    <p class="subtitle">Player details</p>
+  </div>
+</header>
+
+<main class="container" id="player-page">
+  <a href="index.html" class="back-link">← Back to list</a>
+
+  <section class="player-header">
+    <div class="player-image-wrapper">
+      <img id="player-image" src="" alt="Player image" onerror="this.style.display='none'">
+    </div>
+    <div class="player-meta">
+      <h2 id="player-name"></h2>
+      <p id="player-game"></p>
+      <p id="player-position-element"></p>
+      <p id="player-role"></p>
+      <p id="player-age-school"></p>
+    </div>
+  </section>
+
+  <section class="rarity-section">
+    <label for="rarity-select">Rarity</label>
+    <select id="rarity-select">
+      <option value="Normal">Normal</option>
+      <option value="Grimpant">Grimpant</option>
+      <option value="Experimente">Expérimenté</option>
+      <option value="Emerite">Émérite</option>
+      <option value="Legendaire">Légendaire</option>
+      <option value="Heroique">Héroïque</option>
+    </select>
+  </section>
+
+  <section class="stats-section">
+    <h3>Stats</h3>
+    <table class="stats-table">
+      <tbody>
+      <tr><th>Kick</th><td id="stat-kick"></td></tr>
+      <tr><th>Control</th><td id="stat-control"></td></tr>
+      <tr><th>Technique</th><td id="stat-technique"></td></tr>
+      <tr><th>Pressure</th><td id="stat-pressure"></td></tr>
+      <tr><th>Physical</th><td id="stat-physical"></td></tr>
+      <tr><th>Agility</th><td id="stat-agility"></td></tr>
+      <tr><th>Intelligence</th><td id="stat-intelligence"></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="text-section">
+    <h3>Description</h3>
+    <p id="player-description"></p>
+  </section>
+
+  <section class="text-section">
+    <h3>How to obtain</h3>
+    <p id="player-obtain"></p>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>InazumaHub · Fan-made project</p>
+  </div>
+</footer>
+
+<script src="assets/js/player.js"></script>
+</body>
+</html>

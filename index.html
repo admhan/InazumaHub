@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>InazumaHub - Player Database</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <h1>InazumaHub</h1>
+    <p class="subtitle">Community database for Inazuma Eleven: Victory Road and more</p>
+  </div>
+</header>
+
+<main class="container">
+  <section class="filters">
+    <div class="filter-group">
+      <label for="search-input">Search</label>
+      <input type="text" id="search-input" placeholder="Search by name...">
+    </div>
+
+    <div class="filter-group">
+      <label for="position-filter">Position</label>
+      <select id="position-filter">
+        <option value="">All</option>
+        <option value="GK">GK</option>
+        <option value="DF">DF</option>
+        <option value="MF">MF</option>
+        <option value="FW">FW</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label for="element-filter">Element</label>
+      <select id="element-filter">
+        <option value="">All</option>
+        <option value="Wind">Wind</option>
+        <option value="Forest">Forest</option>
+        <option value="Fire">Fire</option>
+        <option value="Mountain">Mountain</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label for="game-filter">Game</label>
+      <select id="game-filter">
+        <option value="">All</option>
+        <option value="Inazuma Eleven">Inazuma Eleven</option>
+        <option value="Inazuma Eleven 2">Inazuma Eleven 2</option>
+        <option value="Inazuma Eleven 3">Inazuma Eleven 3</option>
+        <option value="Inazuma Eleven GO">Inazuma Eleven GO</option>
+        <option value="Inazuma Eleven GO Chrono Stones">GO Chrono Stones</option>
+        <option value="Inazuma Eleven GO Galaxy">GO Galaxy</option>
+        <option value="Inazuma Eleven Ares">Ares</option>
+        <option value="Inazuma Eleven Orion">Orion</option>
+        <option value="Inazuma Eleven: Victory Road">Victory Road</option>
+      </select>
+    </div>
+  </section>
+
+  <section class="results-info">
+    <span id="results-count">0 players</span>
+  </section>
+
+  <section id="players-container" class="players-grid">
+    <!-- Cards inserted by JS -->
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>InazumaHub · Fan-made project · Data from official zukan</p>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

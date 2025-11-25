@@ -1,0 +1,304 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #050716;
+    color: #f5f5f5;
+  }
+  
+  a {
+    color: #ffd447;
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  .container {
+    width: 95%;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  
+  /* Header */
+  
+  .site-header {
+    background: linear-gradient(135deg, #0b1330, #192a56);
+    padding: 1.5rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+  
+  .header-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .site-header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+  }
+  
+  .site-header h1 a {
+    color: #fff;
+  }
+  
+  .subtitle {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #cfd3ff;
+  }
+  
+  /* Filters */
+  
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 1.5rem 0 0.5rem;
+    padding: 1rem;
+    background: rgba(15, 23, 42, 0.9);
+    border-radius: 8px;
+    border: 1px solid rgba(148, 163, 184, 0.3);
+  }
+  
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    min-width: 150px;
+    flex: 1;
+  }
+  
+  .filter-group label {
+    font-size: 0.8rem;
+    margin-bottom: 0.3rem;
+    color: #e5e7eb;
+  }
+  
+  .filter-group input,
+  .filter-group select {
+    padding: 0.4rem 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #4b5563;
+    background: #020617;
+    color: #f9fafb;
+  }
+  
+  /* Results info */
+  
+  .results-info {
+    margin: 0.5rem 0 1rem;
+    font-size: 0.85rem;
+    color: #9ca3af;
+  }
+  
+  /* Player cards grid */
+  
+  .players-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 1rem;
+    padding-bottom: 2rem;
+  }
+  
+  .player-card {
+    background: rgba(15, 23, 42, 0.95);
+    border-radius: 10px;
+    padding: 0.75rem;
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s;
+  }
+  
+  .player-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(15, 23, 42, 0.9);
+    border-color: #facc15;
+  }
+  
+  .player-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  
+  .player-card-img {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    background: #020617;
+    object-fit: cover;
+    border: 1px solid rgba(75, 85, 99, 0.8);
+  }
+  
+  .player-card-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+  
+  .player-card-meta {
+    font-size: 0.8rem;
+    color: #9ca3af;
+  }
+  
+  .player-card-tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.25rem;
+  }
+  
+  .tag {
+    font-size: 0.7rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: 999px;
+    border: 1px solid #4b5563;
+  }
+  
+  .tag-pos {
+    border-color: #38bdf8;
+  }
+  
+  .tag-elem {
+    border-color: #a855f7;
+  }
+  
+  .tag-game {
+    border-color: #22c55e;
+  }
+  
+  /* Player page */
+  
+  .back-link {
+    display: inline-block;
+    margin: 1rem 0;
+    font-size: 0.85rem;
+  }
+  
+  .player-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(15, 23, 42, 0.9);
+    border-radius: 10px;
+    border: 1px solid rgba(148, 163, 184, 0.3);
+  }
+  
+  .player-image-wrapper {
+    flex: 0 0 auto;
+  }
+  
+  .player-image-wrapper img {
+    width: 120px;
+    height: 120px;
+    border-radius: 16px;
+    object-fit: cover;
+    border: 1px solid rgba(148, 163, 184, 0.7);
+  }
+  
+  .player-meta {
+    flex: 1;
+  }
+  
+  .player-meta h2 {
+    margin: 0 0 0.25rem;
+  }
+  
+  .player-meta p {
+    margin: 0.1rem 0;
+    font-size: 0.9rem;
+    color: #e5e7eb;
+  }
+  
+  /* Rarity & stats */
+  
+  .rarity-section {
+    margin: 1.5rem 0 0.75rem;
+  }
+  
+  .rarity-section label {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-size: 0.85rem;
+  }
+  
+  .rarity-section select {
+    padding: 0.4rem 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #4b5563;
+    background: #020617;
+    color: #f9fafb;
+  }
+  
+  .stats-section {
+    margin-bottom: 1rem;
+  }
+  
+  .stats-section h3 {
+    margin-bottom: 0.5rem;
+  }
+  
+  .stats-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+  
+  .stats-table th,
+  .stats-table td {
+    padding: 0.35rem 0.5rem;
+    border-bottom: 1px solid rgba(55, 65, 81, 0.7);
+  }
+  
+  .stats-table th {
+    text-align: left;
+    color: #e5e7eb;
+  }
+  
+  /* Text sections */
+  
+  .text-section {
+    margin-bottom: 1.5rem;
+  }
+  
+  .text-section h3 {
+    margin-bottom: 0.4rem;
+  }
+  
+  .text-section p {
+    font-size: 0.9rem;
+    color: #e5e7eb;
+  }
+  
+  /* Footer */
+  
+  .site-footer {
+    border-top: 1px solid rgba(148, 163, 184, 0.3);
+    padding: 1rem 0;
+    font-size: 0.8rem;
+    color: #9ca3af;
+    background: #020617;
+  }
+  
+  .site-footer p {
+    margin: 0;
+  }
+  
+  /* Responsive */
+  
+  @media (max-width: 600px) {
+    .filters {
+      flex-direction: column;
+    }
+  
+    .player-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
