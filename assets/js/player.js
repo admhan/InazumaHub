@@ -76,9 +76,12 @@ function getPlayerIdFromUrl() {
 function renderPlayer(player, rarityKey) {
   const nameEl = document.getElementById("player-name");
   const gameEl = document.getElementById("player-game");
-  const posElemEl = document.getElementById("player-position-element");
-  const roleEl = document.getElementById("player-role");
-  const ageSchoolEl = document.getElementById("player-age-school");
+  const posEl = document.getElementById("info-position");
+  const elemEl = document.getElementById("info-element");
+  const roleEl = document.getElementById("info-role");
+  const ageEl = document.getElementById("info-age");
+  const schoolEl = document.getElementById("info-school-year");
+  const gameInfoEl = document.getElementById("info-game");
   const imgEl = document.getElementById("player-image");
   const descEl = document.getElementById("player-description");
   const obtainEl = document.getElementById("player-obtain");
@@ -89,9 +92,12 @@ function renderPlayer(player, rarityKey) {
 
   nameEl.textContent = fullName;
   gameEl.textContent = player.game || "";
-  posElemEl.textContent = `${player.position || "?"} · ${player.element || "?"}`;
-  roleEl.textContent = `Role: ${player.character_role || "-"}`;
-  ageSchoolEl.textContent = `${player.age_group || ""} – ${player.school_year || ""}`;
+  posEl.textContent = player.position || "-";
+  elemEl.textContent = player.element || "-";
+  roleEl.textContent = player.character_role || "-";
+  ageEl.textContent = player.age_group || "-";
+  schoolEl.textContent = player.school_year || "-";
+  gameInfoEl.textContent = player.game || "-";
 
   if (player.image) {
     imgEl.src = player.image;
@@ -112,6 +118,89 @@ function renderPlayer(player, rarityKey) {
   document.getElementById("stat-physical").textContent = stats.physical;
   document.getElementById("stat-agility").textContent = stats.agility;
   document.getElementById("stat-intelligence").textContent = stats.intelligence;
+
+  renderRadar(stats, fullName);
+}
+
+let radarChart;
+
+function renderRadar(stats, fullName) {
+  const ctx = document.getElementById("stats-radar");
+  if (!ctx) return;
+
+  const dataPoints = [
+    stats.kick,
+    stats.control,
+    stats.technique,
+    stats.pressure,
+    stats.physical,
+    stats.agility,
+    stats.intelligence
+  ];
+
+  const labels = [
+    "Kick",
+    "Control",
+    "Technique",
+    "Pressure",
+    "Physical",
+    "Agility",
+    "Intelligence"
+  ];
+
+  if (!radarChart) {
+    radarChart = new Chart(ctx, {
+      type: "radar",
+      data: {
+        labels,
+        datasets: [
+          {
+            label: fullName,
+            data: dataPoints,
+            fill: true,
+            backgroundColor: "rgba(255, 212, 71, 0.2)",
+            borderColor: "#ffd447",
+            pointBackgroundColor: "#ffd447"
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          r: {
+            beginAtZero: true,
+            angleLines: {
+              color: "rgba(255,255,255,0.1)"
+            },
+            grid: {
+              color: "rgba(255,255,255,0.15)"
+            },
+            pointLabels: {
+              color: "#e5e7eb",
+              font: {
+                size: 12
+              }
+            },
+            ticks: {
+              color: "#94a3b8",
+              backdropColor: "transparent"
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            labels: {
+              color: "#e5e7eb"
+            }
+          }
+        }
+      }
+    });
+  } else {
+    radarChart.data.datasets[0].data = dataPoints;
+    radarChart.data.datasets[0].label = fullName;
+    radarChart.update();
+  }
 }
 
 async function initPlayerPage() {
