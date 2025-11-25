@@ -1,195 +1,100 @@
-// Configuration des chemins JSON (relatifs à index.html)
-const DATA_PATH = "data";
-
-async function loadJson(file) {
-  const res = await fetch(`${DATA_PATH}/${file}`);
-  if (!res.ok) {
-    console.error("Failed to load", file, res.status);
-    return [];
-  }
-  return await res.json();
-}
-
-function buildMapById(arr, valueKey) {
-  const map = {};
-  arr.forEach(item => {
-    if (!item.id) return;
-    map[item.id] = valueKey ? item[valueKey] : item;
-  });
-  return map;
-}
-
-function mergeData(main, desc, obtain, images) {
-  const descMap = buildMapById(desc, "description");
-  const obtainMap = buildMapById(obtain, "how_to_obtain");
-  // image key may be 'image', 'img' or 'image_url' depending on your CSV
-  const imgMap = {};
-  images.forEach(it => {
-    if (!it.id) return;
-    const img =
-      it.image ||
-      it.img ||
-      it.image_url ||
-      "";
-    imgMap[it.id] = img;
-  });
-
-  return main.map(ch => ({
-    ...ch,
-    description: descMap[ch.id] || "",
-    how_to_obtain: obtainMap[ch.id] || "",
-    image: imgMap[ch.id] || ""
-  }));
-}
-
-let allPlayers = [];
+let playersData = [];
 let filteredPlayers = [];
 
-function getFilters() {
-  const search = document.getElementById("search-input").value.trim().toLowerCase();
-  const pos = document.getElementById("position-filter").value;
-  const elem = document.getElementById("element-filter").value;
-  const game = document.getElementById("game-filter").value;
-  return { search, pos, elem, game };
+const searchInput = document.getElementById("search-input");
+const positionFilter = document.getElementById("position-filter");
+const elementFilter = document.getElementById("element-filter");
+const gameFilter = document.getElementById("game-filter");
+
+const sortStatSelect = document.getElementById("sort-stat");
+const sortDirectionBtn = document.getElementById("sort-direction");
+
+const resultsCount = document.getElementById("results-count");
+const playersContainer = document.getElementById("players-container");
+
+// Load JSON
+fetch("data/players.json")
+  .then(res => res.json())
+  .then(data => {
+    playersData = data;
+    filteredPlayers = data;
+    renderPlayers();
+  });
+
+// --- FILTERING ---
+function applyFilters() {
+  const searchValue = searchInput.value.toLowerCase();
+  const posValue = positionFilter.value;
+  const elemValue = elementFilter.value;
+  const gameValue = gameFilter.value;
+
+  filteredPlayers = playersData.filter(p => {
+    return (
+      p.full_name.toLowerCase().includes(searchValue) &&
+      (posValue === "" || p.position === posValue) &&
+      (elemValue === "" || p.element === elemValue) &&
+      (gameValue === "" || p.game === gameValue)
+    );
+  });
+
+  applySorting();
 }
 
-function applyFilters() {
-  const { search, pos, elem, game } = getFilters();
+// --- SORTING ---
+function applySorting() {
+  const stat = sortStatSelect.value;
+  const order = sortDirectionBtn.dataset.order;
 
-  filteredPlayers = allPlayers.filter(p => {
-    if (pos && p.position !== pos) return false;
-    if (elem && p.element !== elem) return false;
-    if (game && (!p.game || !p.game.startsWith(game))) return false;
-
-    if (search) {
-      const full = (p.full_name || "").toLowerCase();
-      const f = (p.first_name || "").toLowerCase();
-      const l = (p.last_name || "").toLowerCase();
-      if (!full.includes(search) && !f.includes(search) && !l.includes(search)) {
-        return false;
-      }
-    }
-
-    return true;
-  });
+  if (stat) {
+    filteredPlayers.sort((a, b) => {
+      const valA = Number(a[stat]);
+      const valB = Number(b[stat]);
+      return order === "asc" ? valA - valB : valB - valA;
+    });
+  }
 
   renderPlayers();
 }
 
-function createPlayerCard(player) {
-  const card = document.createElement("a");
-  card.className = "player-card";
-  card.href = `player.html?id=${encodeURIComponent(player.id)}`;
-
-  const header = document.createElement("div");
-  header.className = "player-card-header";
-
-  const img = document.createElement("img");
-  img.className = "player-card-img";
-  if (player.image) {
-    img.src = player.image;
-  } else {
-    img.style.display = "none";
-  }
-
-  const nameDiv = document.createElement("div");
-  const name = document.createElement("div");
-  name.className = "player-card-name";
-  name.textContent = player.first_name && player.last_name
-    ? `${player.first_name} ${player.last_name}`
-    : (player.full_name || "Unknown");
-
-  const meta = document.createElement("div");
-  meta.className = "player-card-meta";
-  meta.textContent = player.game || "";
-
-  nameDiv.appendChild(name);
-  nameDiv.appendChild(meta);
-
-  header.appendChild(img);
-  header.appendChild(nameDiv);
-
-  const tagsRow = document.createElement("div");
-  tagsRow.className = "player-card-tag-row";
-
-  const posTag = document.createElement("span");
-  posTag.className = "tag tag-pos";
-  posTag.textContent = player.position || "?";
-
-  const elemTag = document.createElement("span");
-  elemTag.className = "tag tag-elem";
-  elemTag.textContent = player.element || "?";
-
-  const gameTag = document.createElement("span");
-  gameTag.className = "tag tag-game";
-  if (player.game_code) {
-    gameTag.textContent = `Game ${player.game_code}`;
-  } else {
-    gameTag.textContent = "Game ?";
-  }
-
-  tagsRow.appendChild(posTag);
-  tagsRow.appendChild(elemTag);
-  tagsRow.appendChild(gameTag);
-
-  const statsMeta = document.createElement("div");
-  statsMeta.className = "player-card-meta";
-  const total =
-    (player.stat_kick || 0) +
-    (player.stat_control || 0) +
-    (player.stat_technique || 0) +
-    (player.stat_pressure || 0) +
-    (player.stat_physical || 0) +
-    (player.stat_agility || 0) +
-    (player.stat_intelligence || 0);
-  statsMeta.textContent = `Total stats: ${total}`;
-
-  card.appendChild(header);
-  card.appendChild(tagsRow);
-  card.appendChild(statsMeta);
-
-  return card;
-}
-
+// --- RENDER ---
 function renderPlayers() {
-  const container = document.getElementById("players-container");
-  const countSpan = document.getElementById("results-count");
-  container.innerHTML = "";
+  playersContainer.innerHTML = "";
 
-  countSpan.textContent = `${filteredPlayers.length} player${filteredPlayers.length !== 1 ? "s" : ""}`;
+  filteredPlayers.forEach(p => {
+    const card = document.createElement("div");
+    card.className = "player-card";
 
-  filteredPlayers
-    .sort((a, b) => {
-      const aName = (a.full_name || "").toLowerCase();
-      const bName = (b.full_name || "").toLowerCase();
-      return aName.localeCompare(bName);
-    })
-    .forEach(p => {
-      container.appendChild(createPlayerCard(p));
-    });
+    card.innerHTML = `
+      <img src="${p.image_url || "assets/img/no_image.png"}" alt="${p.full_name}">
+      <h3>${p.first_name} ${p.last_name}</h3>
+      <p><strong>${p.position}</strong> — ${p.element}</p>
+      <p class="stats-small">Kick: ${p.stat_kick} | Ctrl: ${p.stat_control}</p>
+      <a class="btn" href="player.html?id=${p.id}">Details</a>
+    `;
+
+    playersContainer.appendChild(card);
+  });
+
+  resultsCount.textContent = `${filteredPlayers.length} players`;
 }
 
-async function init() {
-  try {
-    const [main, desc, obtain, images] = await Promise.all([
-      loadJson("characters_main.json"),
-      loadJson("characters_description.json"),
-      loadJson("characters_obtain.json"),
-      loadJson("characters_images.json")
-    ]);
+// --- EVENTS LISTENERS ---
+searchInput.addEventListener("input", applyFilters);
+positionFilter.addEventListener("change", applyFilters);
+elementFilter.addEventListener("change", applyFilters);
+gameFilter.addEventListener("change", applyFilters);
 
-    allPlayers = mergeData(main, desc, obtain, images);
-    filteredPlayers = [...allPlayers];
+// Tri par stat
+sortStatSelect.addEventListener("change", applySorting);
 
-    document.getElementById("search-input").addEventListener("input", applyFilters);
-    document.getElementById("position-filter").addEventListener("change", applyFilters);
-    document.getElementById("element-filter").addEventListener("change", applyFilters);
-    document.getElementById("game-filter").addEventListener("change", applyFilters);
-
-    renderPlayers();
-  } catch (e) {
-    console.error("Error initializing InazumaHub:", e);
+// Bouton asc/desc
+sortDirectionBtn.addEventListener("click", () => {
+  if (sortDirectionBtn.dataset.order === "asc") {
+    sortDirectionBtn.dataset.order = "desc";
+    sortDirectionBtn.textContent = "⬇ Descending";
+  } else {
+    sortDirectionBtn.dataset.order = "asc";
+    sortDirectionBtn.textContent = "⬆ Ascending";
   }
-}
-
-document.addEventListener("DOMContentLoaded", init);
+  applySorting();
+});
