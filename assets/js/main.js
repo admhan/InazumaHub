@@ -78,18 +78,24 @@ function renderPlayers() {
   playersContainer.innerHTML = "";
 
   filteredPlayers.forEach(p => {
-    const card = document.createElement("div");
-    card.className = "player-card";
+    const row = document.createElement("tr");
 
-    card.innerHTML = `
-      <img src="${p.image_url}" alt="${p.full_name}">
-      <h3>${p.first_name} ${p.last_name}</h3>
-      <p><strong>${p.position}</strong> — ${p.element}</p>
-      <p class="stats-small">Kick: ${p.stat_kick} | Ctrl: ${p.stat_control}</p>
-      <a class="btn" href="player.html?id=${p.id}">Details</a>
+    row.innerHTML = `
+      <td><img src="${p.image_url}" alt="${p.full_name}" class="player-photo"></td>
+      <td>${p.first_name}</td>
+      <td>${p.last_name}</td>
+      <td>${p.element}</td>
+      <td>${p.position}</td>
+      <td>${p.stat_kick}</td>
+      <td>${p.stat_control}</td>
+      <td>${p.stat_technique}</td>
+      <td>${p.stat_pressure}</td>
+      <td>${p.stat_physical}</td>
+      <td>${p.stat_agility}</td>
+      <td>${p.stat_intelligence}</td>
     `;
 
-    playersContainer.appendChild(card);
+    playersContainer.appendChild(row);
   });
 
   resultsCount.textContent = `${filteredPlayers.length} players`;
